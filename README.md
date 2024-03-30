@@ -1,18 +1,22 @@
 # vue3-admin-template
 
-使用sass插件
+### 依赖库
 
-`pnpm add sass -D`
-
-安装element-plus
+#### element-plus
 
 `pnpm install element-plus`
 
-自动引入插件
+### 插件
+
+#### sass插件
+
+`pnpm add sass -D`
+
+#### 自动引入插件
 
 `pnpm install -D unplugin-vue-components unplugin-auto-import`
 
-SVG组件生成插件
+#### SVG组件生成插件
 
 ```
 pnpm add -D vite-plugin-svg-icons
@@ -34,6 +38,6 @@ plugins: [
 ]
 ```
 
-压缩插件
+#### 压缩插件
 
 `pnpm add -D vite-plugin-compression`
