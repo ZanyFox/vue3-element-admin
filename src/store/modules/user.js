@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/js/token.js'
+import {login, logout, getInfo} from '@/api/login'
+import {getToken, setToken, removeToken} from '@/js/token.js'
 import defAva from '@/assets/images/avatar.jpeg'
 
 const useUserStore = defineStore(
@@ -8,10 +8,11 @@ const useUserStore = defineStore(
     state: () => ({
       token: getToken(),
       id: '',
-      name: '',
-      avatar: 'src/assets/images/avatar.jpeg',
+      username: '',
+      avatar: '',
       roles: [],
-      permissions: []
+      permissions: [],
+      isFetch: false
     }),
     actions: {
       // 登录
@@ -20,10 +21,11 @@ const useUserStore = defineStore(
         const password = userInfo.password
         const code = userInfo.code
         const uuid = userInfo.uuid
+
         return new Promise((resolve, reject) => {
-          login(username, password, code, uuid).then(res => {
-            setToken(res.token)
-            this.token = res.token
+          login(username, password, code, uuid).then(data => {
+            data.token && setToken(data.token)
+            this.token = data.token
             resolve()
           }).catch(error => {
             reject(error)
@@ -32,26 +34,20 @@ const useUserStore = defineStore(
       },
       // 获取用户信息
       getInfo() {
-        return new Promise((resolve, reject) => {
-          getInfo().then(res => {
-            const user = res.user
-            const avatar = (user.avatar === "" || user.avatar == null) ? defAva : import.meta.env.VITE_APP_BASE_API + user.avatar;
+        return new Promise(resolve => {
 
-            if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-              this.roles = res.roles
-              this.permissions = res.permissions
-            } else {
-              this.roles = ['ROLE_DEFAULT']
-            }
-            this.id = user.userId
-            this.name = user.userName
-            this.avatar = avatar
-            resolve(res)
-          }).catch(error => {
-            reject(error)
+          this.isFetch = true
+          getInfo().then(data => {
+            this.$patch({
+              ...data
+            })
+            this.avatar = data.avatar || defAva
+            // 执行后面的 onFilFulled
+            resolve()
           })
         })
       },
+
       // 退出系统
       logOut() {
         return new Promise((resolve, reject) => {
@@ -65,6 +61,13 @@ const useUserStore = defineStore(
             reject(error)
           })
         })
+      },
+
+      clearInfo() {
+        this.token = ''
+        this.roles = []
+        this.permissions = []
+        removeToken()
       }
     }
   })

@@ -50,3 +50,19 @@ export function delDept(deptId) {
     method: 'delete'
   })
 }
+
+export const getDeptSimpleList = () => request({
+  url: 'system/dept/simple-list'
+})
+
+export const getDeptTree = () => request({
+  url: 'system/dept/tree'
+})
+
+
+export const getDeptListByRoleId = (roleId) => request({
+  url: '/system/dept/list-by-role',
+  params: {
+    roleId
+  }
+})

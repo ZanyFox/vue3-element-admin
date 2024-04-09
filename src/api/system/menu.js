@@ -1,13 +1,26 @@
 import request from '@/utils/request'
 
+const MENU_API_PREFIX = '/system/menu'
+
 // 查询菜单列表
-export function listMenu(query) {
+export function getMenuList(query) {
   return request({
     url: '/system/menu/list',
     method: 'get',
     params: query
   })
 }
+
+export const getSimpleMenuList = () => request({
+  url: `${MENU_API_PREFIX}/simple-list`
+})
+
+export const getMenuIdsByRoleId = (roleId) => request({
+  url: `${MENU_API_PREFIX}/list-by-role`,
+  params: {
+    roleId
+  }
+})
 
 // 查询菜单详细
 export function getMenu(menuId) {

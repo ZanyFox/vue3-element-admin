@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { parseStrEmpty } from "@/utils/util.js";
+import {parseStrEmpty} from "@/utils/util.js";
 
 // 查询用户列表
 export function listUser(query) {
@@ -10,6 +10,11 @@ export function listUser(query) {
   })
 }
 
+export const getUserPage = (params) => request({
+  url: 'system/user/page',
+  params: params
+})
+
 // 查询用户详细
 export function getUser(userId) {
   return request({
@@ -18,57 +23,69 @@ export function getUser(userId) {
   })
 }
 
+export const getUserDetailById = (userId) => request({
+  url: 'system/user/get',
+  params: {
+    id: userId
+  }
+})
+
 // 新增用户
 export function addUser(data) {
   return request({
-    url: '/system/user',
-    method: 'post',
+    url: '/system/user/create',
+    method: 'POST',
     data: data
   })
 }
 
 // 修改用户
-export function updateUser(data) {
-  return request({
-    url: '/system/user',
-    method: 'put',
-    data: data
-  })
-}
+export const updateUser = (data) => request({
+  url: '/system/user/update',
+  method: 'PUT',
+  data: data
+})
+
 
 // 删除用户
-export function delUser(userId) {
+export const deleteUserById = (userId) => {
   return request({
-    url: '/system/user/' + userId,
+    url: '/system/user/delete',
+    params: {
+      id: userId
+    },
     method: 'delete'
   })
 }
 
+export const deleteUserBatch = (ids) => request({
+  url: '/system/user/delete-batch',
+  data: ids,
+  method: 'DELETE'
+})
+
 // 用户密码重置
-export function resetUserPwd(userId, password) {
+export const resetUserPwd = (id, password) => {
   const data = {
-    userId,
+    id,
     password
   }
   return request({
-    url: '/system/user/resetPwd',
+    url: '/system/user/update-password',
     method: 'put',
     data: data
   })
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, status) {
-  const data = {
-    userId,
-    status
+export const changeUserStatus = (id, status) => request({
+  url: '/system/user/update-status',
+  method: 'put',
+  data: {
+    id, status
   }
-  return request({
-    url: '/system/user/changeStatus',
-    method: 'put',
-    data: data
-  })
-}
+})
+
 
 // 查询用户个人信息
 export function getUserProfile() {
@@ -126,6 +143,7 @@ export function updateAuthRole(data) {
   })
 }
 
+
 // 查询部门下拉树结构
 export function deptTreeSelect() {
   return request({
@@ -133,3 +151,15 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+
+// 查询被分配某一角色的用户分页
+export const getAssignedRoleUsers = (params) => request({
+  url: '/system/user/assigned-role',
+  params
+})
+
+export const getUnAssignedRoleUsers = (params) => request({
+  url: '/system/user/unassigned-role',
+  params
+})

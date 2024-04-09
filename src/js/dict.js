@@ -1,5 +1,5 @@
 import useDictStore from '@/store/modules/dict'
-import { getDicts } from '@/api/system/dict/data'
+import {getDictByByType} from '@/api/system/dict/data'
 
 /**
  * 获取字典数据
@@ -7,15 +7,22 @@ import { getDicts } from '@/api/system/dict/data'
 export function useDict(...args) {
   const res = ref({});
   return (() => {
-    args.forEach((dictType, index) => {
+    args.forEach((dictType, _) => {
       res.value[dictType] = [];
-      const dicts = useDictStore().getDict(dictType);
+      const dictStore = useDictStore()
+      const dicts = dictStore.getDict(dictType);
       if (dicts) {
         res.value[dictType] = dicts;
       } else {
-        getDicts(dictType).then(resp => {
-          res.value[dictType] = resp.data.map(p => ({ label: p.dictLabel, value: p.dictValue, elTagType: p.listClass, elTagClass: p.cssClass }))
-          useDictStore().setDict(dictType, res.value[dictType]);
+        // 如果本地没有该字典类型的数据，从后端获取
+        getDictByByType(dictType).then(data => {
+          res.value[dictType] = data.map(p => ({
+            label: p.label,
+            value: p.value,
+            elTagType: p.colorType,
+            elTagClass: p.cssClass
+          }))
+          dictStore.setDict(dictType, res.value[dictType]);
         })
       }
     })

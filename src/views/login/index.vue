@@ -5,27 +5,27 @@
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" size="large" autocomplete="off" placeholder="账号">
           <template #prefix>
-            <svg-icon icon-class="user" class="el-input__icon input-icon" />
+            <svg-icon icon-class="user" class="el-input__icon input-icon"/>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="loginForm.password" type="password" size="large" autocomplete="off" placeholder="密码"
-          @keyup.enter="handleLogin">
+                  @keyup.enter="handleLogin">
           <template #prefix>
-            <svg-icon icon-class="password" class="el-input__icon input-icon" />
+            <svg-icon icon-class="password" class="el-input__icon input-icon"/>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
         <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%"
-          @keyup.enter="handleLogin">
+                  @keyup.enter="handleLogin">
           <template #prefix>
-            <svg-icon icon-class="validCode" class="el-input__icon input-icon" />
+            <svg-icon icon-class="validCode" class="el-input__icon input-icon"/>
           </template>
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img" />
+          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">记住密码</el-checkbox>
@@ -47,9 +47,9 @@
 </template>
 
 <script setup>
-import { getCodeImg } from "@/api/login";
+import {getCodeImg} from "@/api/login";
 import Cookies from "js-cookie";
-import { encrypt, decrypt } from "@/utils/jsencrypt";
+import {encrypt, decrypt} from "@/utils/jsencrypt";
 import useUserStore from '@/store/modules/user'
 
 defineOptions({
@@ -59,44 +59,46 @@ defineOptions({
 const userStore = useUserStore()
 const route = useRoute();
 const router = useRouter();
-const { proxy } = getCurrentInstance();
+// 获取当前vue组件
+const {proxy} = getCurrentInstance();
 
 const loginForm = ref({
   username: "admin",
-  password: "admin123",
+  password: "123456",
   rememberMe: false,
   code: "",
   uuid: ""
 });
 
 const loginRules = {
-  username: [{ required: true, trigger: "blur", message: "请输入您的账号" }],
-  password: [{ required: true, trigger: "blur", message: "请输入您的密码" }],
-  code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+  username: [{required: true, trigger: "blur", message: "请输入您的账号"}],
+  password: [{required: true, trigger: "blur", message: "请输入您的密码"}],
+  code: [{required: true, trigger: "change", message: "请输入验证码"}]
 };
 
 const codeUrl = ref("");
 const loading = ref(false);
 // 验证码开关
-const captchaEnabled = ref(true);
+const captchaEnabled = ref(false);
 // 注册开关
 const register = ref(false);
 const redirect = ref(undefined);
 
 watch(route, (newRoute) => {
   redirect.value = newRoute.query && newRoute.query.redirect;
-}, { immediate: true });
+}, {immediate: true});
 
 function handleLogin() {
 
+  // 校验参数
   proxy.$refs.loginRef.validate(valid => {
     if (valid) {
       loading.value = true;
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
       if (loginForm.value.rememberMe) {
-        Cookies.set("username", loginForm.value.username, { expires: 30 });
-        Cookies.set("password", encrypt(loginForm.value.password), { expires: 30 });
-        Cookies.set("rememberMe", loginForm.value.rememberMe, { expires: 30 });
+        Cookies.set("username", loginForm.value.username, {expires: 30});
+        Cookies.set("password", encrypt(loginForm.value.password), {expires: 30});
+        Cookies.set("rememberMe", loginForm.value.rememberMe, {expires: 30});
       } else {
         // 否则移除
         Cookies.remove("username");
@@ -105,6 +107,7 @@ function handleLogin() {
       }
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
+
         const query = route.query;
         const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
           if (cur !== "redirect") {
@@ -112,7 +115,7 @@ function handleLogin() {
           }
           return acc;
         }, {});
-        router.push({ path: redirect.value || "/", query: otherQueryParams });
+        router.push({path: redirect.value || "/", query: otherQueryParams});
       }).catch(() => {
         loading.value = false;
         // 重新获取验证码
@@ -145,7 +148,9 @@ function getCookie() {
 
 }
 
-getCode();
+if (captchaEnabled.value)
+  getCode();
+
 getCookie();
 
 </script>

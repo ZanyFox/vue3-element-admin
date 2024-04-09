@@ -9,6 +9,10 @@ export function listPost(query) {
   })
 }
 
+export const getSimplePostList = () => request({
+  url: '/system/post/simple-list'
+})
+
 // 查询岗位详细
 export function getPost(postId) {
   return request({

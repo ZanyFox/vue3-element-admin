@@ -25,6 +25,14 @@ export function getDicts(dictType) {
   })
 }
 
+export const getDictByByType = (type) => request({
+  url: '/system/dict-data/get-by-type',
+  params: {
+    type
+  }
+})
+
+
 // 新增字典数据
 export function addData(data) {
   return request({

@@ -276,7 +276,7 @@
 </template>
 
 <script setup>
-import { addMenu, delMenu, getMenu, listMenu, updateMenu } from "@/api/system/menu";
+import { addMenu, delMenu, getMenu, getMenuList, updateMenu } from "@/api/system/menu";
 import SvgIcon from "@/components/SvgIcon/SvgIcon.vue";
 import IconSelect from "@/components/IconSelect/index.vue";
 
@@ -316,7 +316,7 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询菜单列表 */
 function getList() {
   loading.value = true;
-  listMenu(queryParams.value).then(response => {
+  getMenuList(queryParams.value).then(response => {
     menuList.value = proxy.handleTree(response.data, "menuId", null, null);
     loading.value = false;
   });
@@ -324,7 +324,7 @@ function getList() {
 /** 查询菜单下拉树结构 */
 function getTreeSelect() {
   menuOptions.value = [];
-  listMenu().then(response => {
+  getMenuList().then(response => {
     const menu = { menuId: 0, menuName: "主类目", children: [] };
     menu.children = proxy.handleTree(response.data, "menuId", null, null);
     menuOptions.value.push(menu);

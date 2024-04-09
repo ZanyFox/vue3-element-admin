@@ -11,10 +11,12 @@ export const dynamicRoutes = [
     component: Layout,
     hidden: true,
     permissions: ['system:user:edit'],
+    // 可以重定向到已存在页面，或者重定向到不存在的页面，会自动转到404
+    redirect: '/system/user',
     children: [
       {
         path: 'role/:userId(\\d+)',
-        component: () => import('@/views/system/user/authRole.vue'),
+        component: () => import('@/views/system/user/AuthRoleView.vue'),
         name: 'AuthRole',
         meta: { title: '分配角色', activeMenu: '/system/user' }
       }
@@ -28,7 +30,7 @@ export const dynamicRoutes = [
     children: [
       {
         path: 'user/:roleId(\\d+)',
-        component: () => import('@/views/system/role/authUser.vue'),
+        component: () => import('@/views/system/role/AuthUserView.vue'),
         name: 'AuthUser',
         meta: { title: '分配用户', activeMenu: '/system/role' }
       }

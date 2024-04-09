@@ -153,7 +153,7 @@ export function mergeRecursive(source, target) {
 
 /**
  * 构造树型结构数据
- * @param {*} data 数据源
+ * @param {*} data 数据源 数组
  * @param {*} id id字段 默认 'id'
  * @param {*} parentId 父节点字段 默认 'parentId'
  * @param {*} children 孩子节点字段 默认 'children'
@@ -164,11 +164,13 @@ export function handleTree(data, id, parentId, children) {
     parentId: parentId || 'parentId',
     childrenList: children || 'children'
   };
-
+  // key为父节点id  value 为子节点
   const childrenListMap = {};
+  // key为id  value为数据对象 map
   const nodeIds = {};
   const tree = [];
 
+  // 填充 nodeIds 和 childrenListMap 为后续构建tree做准备
   for (let d of data) {
     let parentId = d[config.parentId];
     if (childrenListMap[parentId] == null) {
@@ -178,6 +180,7 @@ export function handleTree(data, id, parentId, children) {
     childrenListMap[parentId].push(d);
   }
 
+  // 找到顶层的节点
   for (let d of data) {
     let parentId = d[config.parentId];
     if (nodeIds[parentId] == null) {

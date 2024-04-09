@@ -212,7 +212,10 @@ const getProject = () => {
       time: new Date()
     }
   ]
-  projects = Object.assign(projects, data)
+  // 将数据复制到reactive
+  let projects1 = Object.assign(projects, data)
+
+  console.log(projects1 === projects) //true
 }
 
 

@@ -80,6 +80,7 @@ const style = computed(() => {
   const ret = {};
   if (props.gutter) {
     ret.marginRight = `${props.gutter / 2}px`;
+    ret.marginLeft = `${props.gutter / 2}px`;
   }
   return ret;
 });
