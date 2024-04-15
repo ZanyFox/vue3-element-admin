@@ -10,6 +10,7 @@ export default defineConfig({
     shortcuts: {},
     presets: [
         presetUno(),
+        // 属性化预设
         presetAttributify(),
     ],
 })

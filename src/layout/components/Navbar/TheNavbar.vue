@@ -9,13 +9,6 @@
       <template v-if="appStore.device !== 'mobile'">
         <header-search id="header-search" class="right-menu-item"/>
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect"/>
-        </el-tooltip>
-
-        <el-tooltip content="文档地址" effect="dark" placement="bottom">
-          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect"/>
-        </el-tooltip>
 
         <ScreenFull id="screenfull" class="right-menu-item hover-effect"/>
 
@@ -60,8 +53,6 @@ import Hamburger from '@/components/Hamburger/IconHamburger.vue'
 import ScreenFull from '@/components/ScreenFull/FullScreen.vue'
 import SizeSelect from '@/components/SizeSelect/SizeSelect.vue'
 import HeaderSearch from '@/components/HeaderSearch/HeaderSearch.vue'
-import RuoYiGit from '@/components/RuoYi/Git/index.vue'
-import RuoYiDoc from '@/components/RuoYi/Doc/index.vue'
 import useAppStore from '@/store/modules/app.js'
 import useUserStore from '@/store/modules/user.js'
 import useSettingsStore from '@/store/modules/settings.js'

@@ -3,17 +3,20 @@ import request from '@/utils/request'
 // 查询字典数据列表
 export function listData(query) {
   return request({
-    url: '/system/dict/data/list',
+    url: '/system/dict-data/page',
     method: 'get',
     params: query
   })
 }
 
 // 查询字典数据详细
-export function getData(dictCode) {
+export function getData(dictDataId) {
   return request({
-    url: '/system/dict/data/' + dictCode,
-    method: 'get'
+    url: '/system/dict-data/get',
+    method: 'GET',
+    params: {
+      id: dictDataId
+    }
   })
 }
 
@@ -36,8 +39,8 @@ export const getDictByByType = (type) => request({
 // 新增字典数据
 export function addData(data) {
   return request({
-    url: '/system/dict/data',
-    method: 'post',
+    url: '/system/dict-data/create',
+    method: 'POST',
     data: data
   })
 }
@@ -45,16 +48,17 @@ export function addData(data) {
 // 修改字典数据
 export function updateData(data) {
   return request({
-    url: '/system/dict/data',
-    method: 'put',
+    url: '/system/dict-data/update',
+    method: 'PUT',
     data: data
   })
 }
 
 // 删除字典数据
-export function delData(dictCode) {
+export function delData(ids) {
   return request({
-    url: '/system/dict/data/' + dictCode,
-    method: 'delete'
+    url: '/system/dict-data/delete-batch',
+    method: 'DELETE',
+    data: ids
   })
 }

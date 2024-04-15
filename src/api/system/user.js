@@ -163,3 +163,11 @@ export const getUnAssignedRoleUsers = (params) => request({
   url: '/system/user/unassigned-role',
   params
 })
+
+// 获取路由
+export const getRoutes = () => {
+  return request({
+    url: '/system/user/routes',
+    method: 'get'
+  })
+}

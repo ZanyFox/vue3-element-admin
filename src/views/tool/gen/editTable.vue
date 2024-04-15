@@ -128,7 +128,7 @@
 
 <script setup>
 import { getGenTable, updateGenTable } from "@/api/tool/gen";
-import { optionselect as getDictOptionSelect } from "@/api/system/dict/type";
+import { getDictTypeSimpleList as getDictOptionSelect } from "@/api/system/dict/type";
 import basicInfoForm from "./basicInfoForm.vue";
 import genInfoForm from "./genInfoForm.vue";
 

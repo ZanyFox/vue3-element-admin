@@ -1,5 +1,3 @@
-
-
 /**
  * 通用js方法封装处理
  * Copyright (c) 2019 ruoyi
@@ -89,7 +87,7 @@ export function selectDictLabel(datas, value) {
 
 // 回显数据字典（字符串数组）
 export function selectDictLabels(datas, value, separator) {
-  if (value === undefined || value.length ===0) {
+  if (value === undefined || value.length === 0) {
     return "";
   }
   if (Array.isArray(value)) {
@@ -159,6 +157,9 @@ export function mergeRecursive(source, target) {
  * @param {*} children 孩子节点字段 默认 'children'
  */
 export function handleTree(data, id, parentId, children) {
+
+  if (!Array.isArray(data) || data.length == 0)
+    return
   let config = {
     id: id || 'id',
     parentId: parentId || 'parentId',
@@ -202,13 +203,14 @@ export function handleTree(data, id, parentId, children) {
       }
     }
   }
+
   return tree;
 }
 
 /**
-* 参数处理
-* @param {*} params  参数
-*/
+ * 参数处理
+ * @param {*} params  参数
+ */
 export function tansParams(params) {
   let result = ''
   for (const propName of Object.keys(params)) {
@@ -236,7 +238,8 @@ export function tansParams(params) {
 export function getNormalPath(p) {
   if (p.length === 0 || !p || p === 'undefined') {
     return p
-  };
+  }
+  ;
   let res = p.replace('//', '/')
   if (res[res.length - 1] === '/') {
     return res.slice(0, res.length - 1)

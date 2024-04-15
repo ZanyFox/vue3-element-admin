@@ -25,8 +25,11 @@ export const getMenuIdsByRoleId = (roleId) => request({
 // 查询菜单详细
 export function getMenu(menuId) {
   return request({
-    url: '/system/menu/' + menuId,
-    method: 'get'
+    url: '/system/menu/get',
+    method: 'get',
+    params: {
+      id: menuId
+    }
   })
 }
 
@@ -34,7 +37,7 @@ export function getMenu(menuId) {
 export function treeselect() {
   return request({
     url: '/system/menu/treeselect',
-    method: 'get'
+    method: 'GET'
   })
 }
 
@@ -42,15 +45,15 @@ export function treeselect() {
 export function roleMenuTreeSelect(roleId) {
   return request({
     url: '/system/menu/roleMenuTreeselect/' + roleId,
-    method: 'get'
+    method: 'GET'
   })
 }
 
 // 新增菜单
 export function addMenu(data) {
   return request({
-    url: '/system/menu',
-    method: 'post',
+    url: '/system/menu/create',
+    method: 'POST',
     data: data
   })
 }
@@ -58,8 +61,8 @@ export function addMenu(data) {
 // 修改菜单
 export function updateMenu(data) {
   return request({
-    url: '/system/menu',
-    method: 'put',
+    url: '/system/menu/update',
+    method: 'PUT',
     data: data
   })
 }
@@ -67,7 +70,10 @@ export function updateMenu(data) {
 // 删除菜单
 export function delMenu(menuId) {
   return request({
-    url: '/system/menu/' + menuId,
-    method: 'delete'
+    url: '/system/menu/delete',
+    method: 'delete',
+    params: {
+      id: menuId
+    }
   })
 }

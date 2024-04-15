@@ -116,65 +116,65 @@
               >导出
               </el-button>
             </el-col>
-            <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns" :search="false"/>
+            <right-toolbar v-model:showSearch="showSearch" @queryTable="loadUserPage" :columns="columns" :search="false"/>
           </el-form-item>
         </el-form>
 
-<!--        <el-row :gutter="10" class="mb8">-->
-          <!--          <el-col :span="1.5">-->
-          <!--            <el-button-->
-          <!--                type="primary"-->
-          <!--                plain-->
-          <!--                icon="Plus"-->
-          <!--                @click="handleAdd"-->
-          <!--                v-hasPermi="['system:user:add']"-->
-          <!--            >新增-->
-          <!--            </el-button>-->
-          <!--          </el-col>-->
-          <!--          <el-col :span="1.5">-->
-          <!--            <el-button-->
-          <!--                type="success"-->
-          <!--                plain-->
-          <!--                icon="Edit"-->
-          <!--                :disabled="single"-->
-          <!--                @click="handleUpdate"-->
-          <!--                v-hasPermi="['system:user:edit']"-->
-          <!--            >修改-->
-          <!--            </el-button>-->
-          <!--          </el-col>-->
-          <!--          <el-col :span="1.5">-->
-          <!--            <el-button-->
-          <!--                type="danger"-->
-          <!--                plain-->
-          <!--                icon="Delete"-->
-          <!--                :disabled="multiple"-->
-          <!--                @click="handleDelete"-->
-          <!--                v-hasPermi="['system:user:remove']"-->
-          <!--            >删除-->
-          <!--            </el-button>-->
-          <!--          </el-col>-->
-          <!--          <el-col :span="1.5">-->
-          <!--            <el-button-->
-          <!--                type="info"-->
-          <!--                plain-->
-          <!--                icon="Upload"-->
-          <!--                @click="handleImport"-->
-          <!--                v-hasPermi="['system:user:import']"-->
-          <!--            >导入-->
-          <!--            </el-button>-->
-          <!--          </el-col>-->
-          <!--          <el-col :span="1.5">-->
-          <!--            <el-button-->
-          <!--                type="warning"-->
-          <!--                plain-->
-          <!--                icon="Download"-->
-          <!--                @click="handleExport"-->
-          <!--                v-hasPermi="['system:user:export']"-->
-          <!--            >导出-->
-          <!--            </el-button>-->
-          <!--          </el-col>-->
-<!--          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"/>-->
-<!--        </el-row>-->
+        <!--        <el-row :gutter="10" class="mb8">-->
+        <!--          <el-col :span="1.5">-->
+        <!--            <el-button-->
+        <!--                type="primary"-->
+        <!--                plain-->
+        <!--                icon="Plus"-->
+        <!--                @click="handleAdd"-->
+        <!--                v-hasPermi="['system:user:add']"-->
+        <!--            >新增-->
+        <!--            </el-button>-->
+        <!--          </el-col>-->
+        <!--          <el-col :span="1.5">-->
+        <!--            <el-button-->
+        <!--                type="success"-->
+        <!--                plain-->
+        <!--                icon="Edit"-->
+        <!--                :disabled="single"-->
+        <!--                @click="handleUpdate"-->
+        <!--                v-hasPermi="['system:user:edit']"-->
+        <!--            >修改-->
+        <!--            </el-button>-->
+        <!--          </el-col>-->
+        <!--          <el-col :span="1.5">-->
+        <!--            <el-button-->
+        <!--                type="danger"-->
+        <!--                plain-->
+        <!--                icon="Delete"-->
+        <!--                :disabled="multiple"-->
+        <!--                @click="handleDelete"-->
+        <!--                v-hasPermi="['system:user:remove']"-->
+        <!--            >删除-->
+        <!--            </el-button>-->
+        <!--          </el-col>-->
+        <!--          <el-col :span="1.5">-->
+        <!--            <el-button-->
+        <!--                type="info"-->
+        <!--                plain-->
+        <!--                icon="Upload"-->
+        <!--                @click="handleImport"-->
+        <!--                v-hasPermi="['system:user:import']"-->
+        <!--            >导入-->
+        <!--            </el-button>-->
+        <!--          </el-col>-->
+        <!--          <el-col :span="1.5">-->
+        <!--            <el-button-->
+        <!--                type="warning"-->
+        <!--                plain-->
+        <!--                icon="Download"-->
+        <!--                @click="handleExport"-->
+        <!--                v-hasPermi="['system:user:export']"-->
+        <!--            >导出-->
+        <!--            </el-button>-->
+        <!--          </el-col>-->
+        <!--          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"/>-->
+        <!--        </el-row>-->
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <!--  多选框  -->
@@ -233,7 +233,7 @@
             :total="total"
             v-model:page="queryParams.page"
             v-model:limit="queryParams.size"
-            @pagination="getList"
+            @pagination="loadUserPage"
         />
       </el-col>
     </el-row>
@@ -476,7 +476,7 @@ const data = reactive({
   formData: {},
 });
 
-const userFormRules = reactive({
+const userFormRules = {
   username: [{required: true, message: "用户名称不能为空", trigger: "blur"}, {
     min: 2,
     max: 20,
@@ -496,7 +496,7 @@ const userFormRules = reactive({
     message: "请输入正确的手机号码",
     trigger: "blur"
   }]
-})
+}
 
 // const {queryParams} = toRefs(data);
 
@@ -526,14 +526,10 @@ const userFormData = ref({
   roleIds: []
 })
 
-// 更新用户部门、岗位、角色时的下拉数据
-const deptSimpleList = ref([])
-const postSimpleList = ref([])
-const roleSimpleList = ref([])
 
 // 页面数据初始化
 onMounted(async () => {
-  Promise.all([loadDeptTree(), loadUserPage()])
+  await Promise.all([loadDeptTree(), loadUserPage()])
 })
 
 
@@ -560,18 +556,6 @@ const filterNode = (value, data) => {
 watch(deptName, val => {
   proxy.$refs["deptTreeRef"].filter(val);
 });
-
-/** 查询用户列表 */
-function getList() {
-  loading.value = true;
-
-  getUserPage(proxy.addDateRange(queryParams.value, dateRange.value))
-      .then(res => {
-        loading.value = false;
-        userList.value = res.list;
-        total.value = res.total;
-      });
-}
 
 
 /** 节点单击事件 */
@@ -602,7 +586,7 @@ function handleDelete(row) {
   proxy.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function () {
     return (userIds.length && UserApi.deleteUserBatch(userIds)) || (!userIds.length && UserApi.deleteUserById(userIds));
   }).then(() => {
-    getList();
+    loadUserPage();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {
   });
@@ -694,7 +678,7 @@ const handleFileSuccess = (response, file, fileList) => {
   upload.isUploading = false;
   proxy.$refs["uploadRef"].handleRemove(file);
   proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", {dangerouslyUseHTMLString: true});
-  getList();
+  loadUserPage();
 }
 
 /** 提交上传文件 */

@@ -1,7 +1,7 @@
 import auth from '@/plugins/auth'
 // router 是默认暴露出去的
-import router, {constantRoutes, dynamicRoutes } from '@/router'
-import { getRouters } from '@/api/menu'
+import router, {constantRoutes, dynamicRoutes} from '@/router'
+import {getRoutes} from "@/api/system/user.js";
 import Layout from '@/layout/TheLayout.vue'
 import ParentView from '@/components/ParentView/ParentView.vue'
 import InnerLink from '@/layout/components/InnerLink/InnerLink.vue'
@@ -33,10 +33,10 @@ const usePermissionStore = defineStore(
       setSidebarRouters(routes) {
         this.sidebarRouters = routes
       },
-      generateRoutes(roles=undefined) {
+      generateRoutes(roles = undefined) {
         return new Promise((resolve, reject) => {
           // 向后端请求路由数据
-          getRouters().then(data => {
+          getRoutes().then(data => {
 
             const sdata = JSON.parse(JSON.stringify(data))
             const rdata = JSON.parse(JSON.stringify(data))
@@ -45,7 +45,9 @@ const usePermissionStore = defineStore(
             const rewriteRoutes = filterAsyncRouter(rdata, false, true)
             const defaultRoutes = filterAsyncRouter(defaultData)
             const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
-            asyncRoutes.forEach(route => { router.addRoute(route) })
+            asyncRoutes.forEach(route => {
+              router.addRoute(route)
+            })
             this.setRoutes(rewriteRoutes)
             this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
             this.setDefaultRoutes(sidebarRoutes)

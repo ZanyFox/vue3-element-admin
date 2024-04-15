@@ -45,83 +45,90 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" plain @click="resetQuery">重置</el-button>
-        <el-button
-            type="success"
-            plain
-            icon="Plus"
-            @click="handleAdd"
-            v-hasPermi="['system:role:add']"
-        >新增
-        </el-button>
-        <el-button
-            type="danger"
-            plain
-            icon="Delete"
-            :disabled="multiple"
-            @click="handleDelete"
-            v-hasPermi="['system:role:remove']"
-        >删除
-        </el-button>
 
-        <el-button
-            type="warning"
-            plain
-            icon="Download"
-            @click="handleExport"
-            v-hasPermi="['system:role:export']"
-        >导出
-        </el-button>
-        <right-toolbar v-model:showSearch="showSearch" @queryTable="loadRolePage" :search="false" :gutter="20"/>
+        <el-row>
+          <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+          <el-button icon="Refresh" plain @click="resetQuery">重置</el-button>
+          <el-button
+              type="success"
+              plain
+              icon="Plus"
+              @click="handleAdd"
+              v-hasPermi="['system:role:add']"
+          >新增
+          </el-button>
+          <el-button
+              type="danger"
+              plain
+              icon="Delete"
+              :disabled="multiple"
+              @click="handleDelete"
+              v-hasPermi="['system:role:remove']"
+          >删除
+          </el-button>
+
+          <el-button
+              type="warning"
+              plain
+              icon="Download"
+              @click="handleExport"
+              v-hasPermi="['system:role:export']"
+          >导出
+          </el-button>
+
+          <el-button circle icon="Refresh" @click="loadRolePage"/>
+
+          <!--          <right-toolbar v-model:showSearch="showSearch" @queryTable="loadRolePage" :search="false" :gutter="20"/>-->
+
+        </el-row>
       </el-form-item>
 
     </el-form>
-<!--    <el-row :gutter="10" class="mb8">-->
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--            type="primary"-->
-      <!--            plain-->
-      <!--            icon="Plus"-->
-      <!--            @click="handleAdd"-->
-      <!--            v-hasPermi="['system:role:add']"-->
-      <!--        >新增-->
-      <!--        </el-button>-->
-      <!--      </el-col>-->
-      <!--      &lt;!&ndash;      <el-col :span="1.5">&ndash;&gt;-->
-      <!--      &lt;!&ndash;        <el-button&ndash;&gt;-->
-      <!--      &lt;!&ndash;            type="success"&ndash;&gt;-->
-      <!--      &lt;!&ndash;            plain&ndash;&gt;-->
-      <!--      &lt;!&ndash;            icon="Edit"&ndash;&gt;-->
-      <!--      &lt;!&ndash;            :disabled="single"&ndash;&gt;-->
-      <!--      &lt;!&ndash;            @click="handleUpdate"&ndash;&gt;-->
-      <!--      &lt;!&ndash;            v-hasPermi="['system:role:edit']"&ndash;&gt;-->
-      <!--      &lt;!&ndash;        >修改&ndash;&gt;-->
-      <!--      &lt;!&ndash;        </el-button>&ndash;&gt;-->
-      <!--      &lt;!&ndash;      </el-col>&ndash;&gt;-->
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--            type="danger"-->
-      <!--            plain-->
-      <!--            icon="Delete"-->
-      <!--            :disabled="multiple"-->
-      <!--            @click="handleDelete"-->
-      <!--            v-hasPermi="['system:role:remove']"-->
-      <!--        >删除-->
-      <!--        </el-button>-->
-      <!--      </el-col>-->
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--            type="warning"-->
-      <!--            plain-->
-      <!--            icon="Download"-->
-      <!--            @click="handleExport"-->
-      <!--            v-hasPermi="['system:role:export']"-->
-      <!--        >导出-->
-      <!--        </el-button>-->
-      <!--      </el-col>-->
-      <!--      <right-toolbar v-model:showSearch="showSearch" @queryTable="loadRolePage" :search="false"/>-->
-<!--    </el-row>-->
+    <!--    <el-row :gutter="10" class="mb8">-->
+    <!--      <el-col :span="1.5">-->
+    <!--        <el-button-->
+    <!--            type="primary"-->
+    <!--            plain-->
+    <!--            icon="Plus"-->
+    <!--            @click="handleAdd"-->
+    <!--            v-hasPermi="['system:role:add']"-->
+    <!--        >新增-->
+    <!--        </el-button>-->
+    <!--      </el-col>-->
+    <!--      &lt;!&ndash;      <el-col :span="1.5">&ndash;&gt;-->
+    <!--      &lt;!&ndash;        <el-button&ndash;&gt;-->
+    <!--      &lt;!&ndash;            type="success"&ndash;&gt;-->
+    <!--      &lt;!&ndash;            plain&ndash;&gt;-->
+    <!--      &lt;!&ndash;            icon="Edit"&ndash;&gt;-->
+    <!--      &lt;!&ndash;            :disabled="single"&ndash;&gt;-->
+    <!--      &lt;!&ndash;            @click="handleUpdate"&ndash;&gt;-->
+    <!--      &lt;!&ndash;            v-hasPermi="['system:role:edit']"&ndash;&gt;-->
+    <!--      &lt;!&ndash;        >修改&ndash;&gt;-->
+    <!--      &lt;!&ndash;        </el-button>&ndash;&gt;-->
+    <!--      &lt;!&ndash;      </el-col>&ndash;&gt;-->
+    <!--      <el-col :span="1.5">-->
+    <!--        <el-button-->
+    <!--            type="danger"-->
+    <!--            plain-->
+    <!--            icon="Delete"-->
+    <!--            :disabled="multiple"-->
+    <!--            @click="handleDelete"-->
+    <!--            v-hasPermi="['system:role:remove']"-->
+    <!--        >删除-->
+    <!--        </el-button>-->
+    <!--      </el-col>-->
+    <!--      <el-col :span="1.5">-->
+    <!--        <el-button-->
+    <!--            type="warning"-->
+    <!--            plain-->
+    <!--            icon="Download"-->
+    <!--            @click="handleExport"-->
+    <!--            v-hasPermi="['system:role:export']"-->
+    <!--        >导出-->
+    <!--        </el-button>-->
+    <!--      </el-col>-->
+    <!--      <right-toolbar v-model:showSearch="showSearch" @queryTable="loadRolePage" :search="false"/>-->
+    <!--    </el-row>-->
 
     <!-- 表格数据 -->
     <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
@@ -286,22 +293,17 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+
+</style>
+
+
 <script setup>
-import {
-  addRole,
-  changeRoleStatus,
-  dataScope,
-  delRole,
-  getRoleById,
-  listRole,
-  updateRole,
-  deptTreeSelect
-} from "@/api/system/role";
 
 import {CommonStatusEnum} from "@/js/constants.js";
 
 import * as RoleApi from '@/api/system/role'
-import {roleMenuTreeSelect, treeselect as menuTreeSelect, getSimpleMenuList} from "@/api/system/menu";
+import {getSimpleMenuList} from "@/api/system/menu";
 import {handleTree} from "@/utils/util.js";
 import {getDeptTree, getDeptListByRoleId} from "@/api/system/dept.js";
 import {getMenuIdsByRoleId} from "@/api/system/menu";
@@ -361,11 +363,11 @@ const roleFormData = ref({
 })
 
 // 表单校验
-const roleFromRules = reactive({
+const roleFromRules = {
   name: [{required: true, message: "角色名称不能为空", trigger: "blur"}],
   key: [{required: true, message: "权限字符不能为空", trigger: "blur"}],
   order: [{required: true, message: "角色顺序不能为空", trigger: "blur"}]
-})
+}
 
 // 分页查询参数
 const queryParams = reactive({
@@ -438,7 +440,7 @@ function handleSelectionChange(selection) {
 function handleStatusChange(row) {
   let text = row.status === 0 ? "启用" : "停用";
   proxy.$modal.confirm('确认要"' + text + '""' + row.name + '"角色吗?').then(function () {
-    return changeRoleStatus(row.id, row.status);
+    return RoleApi.changeRoleStatus(row.id, row.status);
   }).then(() => {
     proxy.$modal.msgSuccess(text + "成功");
   }).catch(function () {
@@ -509,15 +511,6 @@ async function handleAdd() {
   open.value = true;
   title.value = "添加角色";
 }
-
-/** 根据角色ID查询菜单树结构 */
-function getRoleMenuTreeSelect(id) {
-  return roleMenuTreeSelect(id).then(response => {
-    menuOptions.value = response.menus;
-    return response;
-  });
-}
-
 
 const handleOpenCreateOrUpdateDialog = () => {
   roleFormData.value.menuIds.forEach((id) => menuRef.value.setChecked(id, true, false))

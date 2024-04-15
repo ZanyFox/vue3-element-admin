@@ -37,6 +37,7 @@ router.beforeEach((to, from, next) => {
                 router.addRoute(route) // 动态添加可访问路由表
               }
             })
+            // debugger
             next({...to, replace: true}) // hack方法 确保addRoutes已完成
           })
         })
